@@ -7,6 +7,9 @@
 
 #define _______         KC_TRNS
 
+#define RCTL_T(kc)      MT(MOD_RCTL, kc)
+#define RSFT_T(kc)      MT(MOD_RSFT, kc)
+
 
 enum layers {
     L_BASE,      // default layer
@@ -43,9 +46,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
  * | Tab    |   Q  |   W  |   E  |   R  |   T  |      |           |      |   Y  |   U  |   I  |   O  |   P  |   BS   |
  * |--------+------+------+------+------+------| 英数 |           | かな |------+------+------+------+------+--------|
- * | LCtrl  |A/Ctrl|   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/Ctrl|    '   |
+ * | LCtrl  |A/LCtl|   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/RCtl|    '   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |LSft/Cps|   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  |    \   |
+ * |LSft/Cps|Z/LSft|   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |//RSft|    \   |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |      | LAlt |      |      |  ~L1 |                                       |  ~L1 |   [  |   ]  | RAlt |      |
  *   `----------------------------------'                                       `----------------------------------'
@@ -63,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         C_ESC_TILDE,    KC_1,       KC_2,       KC_3,       KC_4,       KC_5,       KC_6,
         KC_TAB,         KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,       KC_LANG2,
         KC_LCTL,        CTL_T(KC_A),KC_S,       KC_D,       KC_F,       KC_G,
-        TD(CT_LSFT),    KC_Z,       KC_X,       KC_C,       KC_V,       KC_B,       _______,
+        TD(CT_LSFT),    SFT_T(KC_Z),KC_X,       KC_C,       KC_V,       KC_B,       _______,
         _______,        KC_LALT,    _______,    _______,    MO(L_FUNC),
                                                                         MO(L_SYS),  _______,
                                                                                     _______,
@@ -71,8 +74,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // right hand
         KC_6,           KC_7,       KC_8,       KC_9,       KC_0,       KC_MINS,    KC_EQL,
         KC_LANG1,       KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_BSPC,
-                        KC_H,       KC_J,       KC_K,       KC_L,       CTL_T(KC_SCLN),KC_QUOT,
-        _______,        KC_N,       KC_M,       KC_COMM,    KC_DOT,     KC_SLSH,    KC_BSLS,
+                        KC_H,       KC_J,       KC_K,       KC_L,       RCTL_T(KC_SCLN),KC_QUOT,
+        _______,        KC_N,       KC_M,       KC_COMM,    KC_DOT,     RSFT_T(KC_SLSH),KC_BSLS,
                                     MO(L_FUNC), KC_LBRC,    KC_RBRC,    KC_RALT,    _______,
         _______,        _______,
         _______,
