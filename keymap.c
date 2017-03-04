@@ -6,15 +6,14 @@
 #include "version.h"
 
 #define _______         KC_TRNS
-
-#define RCTL_T(kc)      MT(MOD_RCTL, kc)
-#define RSFT_T(kc)      MT(MOD_RSFT, kc)
+#define XXXXXXX         KC_NO
 
 
-enum layers {
+
+enum {
     L_BASE,      // default layer
-    L_FUNC,      // symbols
- //   L_WIN,       // for Windows
+    L_NAV,       // navigation
+ //   L_WIN,       // Windows
     L_SYS,      // system
 };
 
@@ -38,60 +37,60 @@ enum {
 };
 
 
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * | Esc ~  |   1  |   2  |   3  |   4  |   5  |   6  |           |   6  |   7  |   8  |   9  |   0  |   -  |    =   |
+ * | Esc~   |   1  |   2  |   3  |   4  |   5  |   6  |           |   6  |   7  |   8  |   9  |   0  |   -  |    =   |
  * |--------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
  * | Tab    |   Q  |   W  |   E  |   R  |   T  |      |           |      |   Y  |   U  |   I  |   O  |   P  |   BS   |
- * |--------+------+------+------+------+------| 英数 |           | かな |------+------+------+------+------+--------|
- * | LCtrl  |A/LCtl|   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/RCtl|    '   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |LSft/Cps|Z/LSft|   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |//RSft|    \   |
+ * |Esc/LCtl|A/LCtl|   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/RCtl|    '   |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |LSft/Cps|   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  |    \   |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      | LAlt |      |      |  ~L1 |                                       |  ~L1 |   [  |   ]  | RAlt |      |
+ *   |      |      |      |      | LSft |                                       | RSft |   [  |   ]  |      |      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        |  ~L2 |      |       |      |      |
+ *                                        | ~LSys|      |       |      |      |
  *                                 ,------|------+------|       |------+------+------.
  *                                 |      |      |      |       |      |      |      |
  *                                 | Space| LGui |------|       |------| RGui | Enter|
- *                                 | /LSft|      |      |       |      |      |      |
+ *                                 |/~LNav| /英数| LAlt |       | RAlt | /かな|/~LNav|
  *                                 `--------------------'       `--------------------'
  */
-// BASE
 [L_BASE] = KEYMAP(
         // left hand
         C_ESC_TILDE,    KC_1,       KC_2,       KC_3,       KC_4,       KC_5,       KC_6,
-        KC_TAB,         KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,       KC_LANG2,
-        KC_LCTL,        CTL_T(KC_A),KC_S,       KC_D,       KC_F,       KC_G,
-        TD(CT_LSFT),    SFT_T(KC_Z),KC_X,       KC_C,       KC_V,       KC_B,       _______,
-        _______,        KC_LALT,    _______,    _______,    MO(L_FUNC),
-                                                                        MO(L_SYS),  _______,
-                                                                                    _______,
-                                                            SFT_T(KC_SPC), KC_LGUI, _______,
+        KC_TAB,         KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,       XXXXXXX,
+        LCTL_T(KC_ESC), LCTL_T(KC_A),KC_S,      KC_D,       KC_F,       KC_G,
+        TD(CT_LSFT),    KC_Z,       KC_X,       KC_C,       KC_V,       KC_B,       XXXXXXX,
+        XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    OSM(MOD_LSFT),
+                                                                        MO(L_SYS),  XXXXXXX,
+                                                                                    XXXXXXX,
+                                                            LT(L_NAV,KC_SPC), LGUI_T(KC_LANG2), KC_LALT,
         // right hand
         KC_6,           KC_7,       KC_8,       KC_9,       KC_0,       KC_MINS,    KC_EQL,
-        KC_LANG1,       KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_BSPC,
+        XXXXXXX,        KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_BSPC,
                         KC_H,       KC_J,       KC_K,       KC_L,       RCTL_T(KC_SCLN),KC_QUOT,
-        _______,        KC_N,       KC_M,       KC_COMM,    KC_DOT,     RSFT_T(KC_SLSH),KC_BSLS,
-                                    MO(L_FUNC), KC_LBRC,    KC_RBRC,    KC_RALT,    _______,
-        _______,        _______,
-        _______,
-        _______,        KC_RGUI,    KC_ENT
+        XXXXXXX,        KC_N,       KC_M,       KC_COMM,    KC_DOT,     KC_SLSH,    KC_BSLS,
+                                    OSM(MOD_RSFT), KC_LBRC, KC_RBRC,    XXXXXXX,    XXXXXXX,
+        XXXXXXX,        XXXXXXX,
+        XXXXXXX,
+        KC_RALT,        RGUI_T(KC_LANG1),    LT(L_NAV, KC_ENT)
     ),
 
-/* Keymap 1: Function Layer
+/* Keymap 1: Navigation Layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |    '   |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F6  |  F7  |  F8  |  F9  |  F10 |  F11 |   F12  |
+ * |    `   |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F6  |  F7  |  F8  |  F9  |  F10 |  F11 |   F12  |
  * |--------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * |        |      | BtnL |  MsU | BtnR |      |      |           |      |      | PgUp |  Up  | PgDn | Home |   Del  |
+ * |        |      |      |  MsU |      |      |      |           | Home | PgUp | PgDn |   [  |   ]  |      |   Del  |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        | BtnL |  MsL |  MsD |  MsR |      |------|           |------|      | Left | Down | Right|  End |        |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |  WhD |  WhU |  WhR |  WhL |      |      |           |      |      |      |   [  |   ]  |      |        |
+ * |        | BtnL |  MsL |  MsD |  MsR | BtnR |------|           |------| Left | Down |  Up  | Right|      |        |
+ * |--------+------+------+------+------+------|      |           |  End |------+------+------+------+------+--------|
+ * |        |  WhD |  WhU |  WhR |  WhL |      |      |           |      |      |      |      |      |      |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |      |      |      |      |      |                                       |      |      |      |      |      |
  *   `----------------------------------'                                       `----------------------------------'
@@ -103,23 +102,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
-// FUNCTION
-[L_FUNC] = KEYMAP(
+[L_NAV] = KEYMAP(
        // left hand
        KC_GRV,  KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,      KC_F6,
-       _______, _______,    KC_BTN1,    KC_MS_U,    KC_BTN2,    _______,    _______,
-       _______, KC_BTN1,    KC_MS_L,    KC_MS_D,    KC_MS_R,    _______,
-       _______, C_WH_D,     C_WH_U,     C_WH_R,     C_WH_L,     _______,    _______,
-       _______, _______,    _______,    _______,    _______,
+       _______, XXXXXXX,    XXXXXXX,    KC_MS_U,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+       _______, KC_BTN1,    KC_MS_L,    KC_MS_D,    KC_MS_R,    KC_BTN2,
+       _______, C_WH_D,     C_WH_U,     C_WH_R,     C_WH_L,     XXXXXXX,    XXXXXXX,
+       XXXXXXX, _______,    XXXXXXX,    XXXXXXX,    _______,
                                                                 _______,    _______,
                                                                             _______,
                                                     _______,    _______,    _______,
        // right hand
        KC_F6,   KC_F7,      KC_F8,      KC_F9,      KC_F10,     KC_F11,     KC_F12,
-       _______, _______,    KC_PGUP,    KC_UP,      KC_PGDN,    KC_HOME,    KC_DEL,
-                _______,    KC_LEFT,    KC_DOWN,    KC_RIGHT,   KC_END,     _______,
-       _______, _______,    _______,    KC_LBRC,    KC_RBRC,    _______,    _______,
-                            _______,    _______,    _______,    _______,    _______,
+       KC_HOME, KC_PGUP,    KC_PGDN,    KC_LBRC,    KC_RBRC,    XXXXXXX,    KC_DEL,
+                KC_LEFT,    KC_DOWN,    KC_UP,      KC_RIGHT,   XXXXXXX,    XXXXXXX,
+       KC_END,  XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+                            _______,    XXXXXXX,    XXXXXXX,    _______,    XXXXXXX,
        _______, _______,
        _______,
        _______, _______,    _______
@@ -170,6 +168,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 };
 
+
+/* Keymap:  layer
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * |--------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |------|           |------|      |      |      |      |      |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |      |      |      |      |      |                                       |      |      |      |      |      |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        |      |      |       |      |      |
+ *                                 ,------|------+------|       |------+------+------.
+ *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |------|       |------|      |      |
+ *                                 |      |      |      |       |      |      |      |
+ *                                 `--------------------'       `--------------------'
+ */
+
+
 const uint16_t PROGMEM fn_actions[] = {
 };
 
@@ -201,8 +223,8 @@ uint32_t next_mouse_wheel_key_time;
 uint32_t mouse_wheel_key_flags;
 uint32_t mouse_wheel_key_interval;
 
-#define MOUSE_WHEEL_KEY_INTERVAL        90
-#define MOUSE_WHEEL_KEY_INTERVAL_MIN    60
+#define MOUSE_WHEEL_KEY_INTERVAL        70
+#define MOUSE_WHEEL_KEY_INTERVAL_MIN    50
 
 
 // 更新間隔 (50fps)
@@ -215,6 +237,14 @@ uint8_t led_brightness[ NUM_LED ];
 
 
 
+static uint32_t    get_mouse_key_flag( uint16_t keycode ) {
+    return 1 << (keycode - MOUSE_KEY_START);
+}
+
+static uint32_t    get_mouse_wheel_key_flag( uint16_t keycode ) {
+    return 1 << (keycode - C_WH_START);
+}
+
 // 50Hz で呼ばれます
 static void fixed_update(void) {
     uint32_t now = timer_read32();
@@ -223,28 +253,28 @@ static void fixed_update(void) {
     // レイヤーの切り替わりを検知
     if (layer != last_layer) {
         // レイヤーが切り替わったらフラグを消す
-        if (layer != L_FUNC) {
+        if (layer == L_NAV) {
             mouse_key_flags         = 0;
             mouse_wheel_key_flags   = 0;
         }
     }
 
-    // モディファイアキーを検知
+    // モディファイアキーを検知 (レイヤーの変更も含む) 
     int oneshot_mods = get_oneshot_mods();
     int mods = keyboard_report->mods;
-    if ( (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) || mods || oneshot_mods ) {
+    if ( (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) || mods || oneshot_mods || layer != 0 ) {
         led_brightness[ 2 ] = LED_BRIGHTNESS;
     }
 
     // マウスキーの加速
     if (mouse_key_flags != 0) {
         uint32_t dt = now - last_mouse_key_time;
-        float r = dt / (1000 * 2.0f);       // 1000ms * sec
+        float r = dt / (1000 * 1.0f);       // 1000ms * sec
         r = r * r;
         if (r > 1.0f) {
             r = 1.0f;
         }
-        uint8_t n = (uint8_t)(MOUSEKEY_MAX_SPEED + 10 * r);
+        uint8_t n = (uint8_t)(MOUSEKEY_MAX_SPEED * 2 + 7 * r);
         mk_max_speed        = n;
 
         led_brightness[ 0 ] = (uint8_t)(LED_BRIGHTNESS * r);
@@ -307,10 +337,10 @@ void matrix_init_user(void) {
     last_updated_time   = now;
     last_layer = biton32(layer_state);
 
-    mouse_key_flags     = 0;
+    mouse_key_flags         = 0;
     mouse_wheel_key_flags   = 0;
 
-    mk_max_speed        = MOUSEKEY_MAX_SPEED;
+    mk_max_speed            = MOUSEKEY_MAX_SPEED;
 
     for (int i = 0; i < NUM_LED; ++i) {
         led_brightness[ i ] = 0;
@@ -370,9 +400,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 next_mouse_wheel_key_time   = now;
                 mouse_wheel_key_interval    = MOUSE_WHEEL_KEY_INTERVAL;
             }
-            mouse_wheel_key_flags     |= 1 << (keycode - C_WH_START);
+            mouse_wheel_key_flags     |= get_mouse_wheel_key_flag( keycode );
         } else {
-            mouse_wheel_key_flags     &= ~(1 << (keycode - C_WH_START));
+            mouse_wheel_key_flags     &= ~get_mouse_wheel_key_flag( keycode );
             // 終了
             if (mouse_wheel_key_flags == 0) {
             }
@@ -385,9 +415,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (mouse_key_flags == 0) {
                 last_mouse_key_time = now;
             }
-            mouse_key_flags     |= 1 << (keycode - MOUSE_KEY_START);
+            mouse_key_flags     |= get_mouse_key_flag( keycode );
         } else {
-            mouse_key_flags     &= ~(1 << (keycode - MOUSE_KEY_START));
+            mouse_key_flags     &= ~get_mouse_key_flag( keycode );
             // 終了
             if (mouse_key_flags == 0) {
                 mk_max_speed        = MOUSEKEY_MAX_SPEED;
