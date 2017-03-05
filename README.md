@@ -55,9 +55,11 @@
 * Gui のタップで <kbd>かな</kbd>/</kbd>英数</kbd> です。
 * 省スペース化のためとレイアウトを崩さないように、左上のキーに <kbd>Esc</kbd> <kbd>~</kbd> <kbd>\`</kbd> をまとめています。修飾キーとの組み合わせで以下のようになります。
 
-| 通常 | <kbd>Shift</kbd> | <kbd>~L1</kbd> |
-|:-:|:-:|:-:|
-| <kbd>Esc</kbd> | <kbd>~</kbd> | <kbd>\`</kbd> |
+| 修飾キー | 出力 |
+| :-: | :-: |
+| なし | <kbd>Esc</kbd> |
+| <kbd>Shift</kbd> | <kbd>~</kbd> |
+| <kbd>~LNav</kbd> | <kbd>`</kbd> |
 
 
 ```

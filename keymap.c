@@ -215,7 +215,8 @@ uint32_t last_mouse_key_time;
 uint32_t mouse_key_flags;
 
 
-#define MOUSE_WHEEL_KEY_START     KC_WH_U
+#define MOUSE_WHEEL_KEY_START           KC_WH_U
+#define NUM_OF_MOUSE_WHEEL_KEY          4
 
 // 次にマウスホイールキーを有効にする時間
 uint32_t next_mouse_wheel_key_time;
@@ -253,7 +254,7 @@ static void fixed_update(void) {
     // レイヤーの切り替わりを検知
     if (layer != last_layer) {
         // レイヤーが切り替わったらフラグを消す
-        if (layer == L_NAV) {
+        if (layer != L_NAV) {
             mouse_key_flags         = 0;
             mouse_wheel_key_flags   = 0;
         }
@@ -289,7 +290,7 @@ static void fixed_update(void) {
 
             // マウスキーとホイールとが競合しちゃうけど同時に操作はしないと思う
             mousekey_clear();
-            for ( int i = 0; i < 4; ++i ) {
+            for ( int i = 0; i < NUM_OF_MOUSE_WHEEL_KEY; ++i ) {
                 if ( 0 == ( mouse_wheel_key_flags & ( 0x01 << i ) ) ) {
                     continue;
                 }
@@ -308,7 +309,7 @@ static void fixed_update(void) {
     }
 
     // LED をフェードアウト
-    uint32_t dec = 10;
+    uint32_t dec = 10;      // フェーデアウト速度
     for (uint8_t i = 0; i < NUM_LED; ++i) {
         if (led_brightness[ i ] > 0) {
             ergodox_right_led_on(i + 1);
