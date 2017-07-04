@@ -12,6 +12,7 @@
 
 enum {
     L_BASE,      // default layer
+    L_CODE,       // navigation
     L_NAV,       // navigation
  //   L_WIN,       // Windows
     L_SYS,      // system
@@ -42,61 +43,103 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * | Esc~   |   1  |   2  |   3  |   4  |   5  |   6  |           |   6  |   7  |   8  |   9  |   0  |   -  |    =   |
+ * |  Esc~  |   1  |   2  |   3  |   4  |   5  |      |           |      |   6  |   7  |   8  |   9  |   0  |   BS   |
  * |--------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * | Tab    |   Q  |   W  |   E  |   R  |   T  |      |           |      |   Y  |   U  |   I  |   O  |   P  |   BS   |
+ * |   Tab  |   Q  |   W  |   E  |   R  |   T  | Home |           | PgUp |   Y  |   U  |   I  |   O  |   P  |    \   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |Esc/LCtl|A/LCtl|   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/RCtl|    '   |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |LSft/Cps|   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  |    \   |
+ * |  LCtl  |A/LCtl|   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/RCtl|    '   |
+ * |--------+------+------+------+------+------|  End |           | PgDn |------+------+------+------+------+--------|
+ * |  LSft  |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  |  RSft  |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |      |      |      | LSft |                                       | RSft |   [  |   ]  |      |      |
+ *   |      |      |      | ~LNav| LSft |                                       |~LCode| ~LNav|      |      |      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        | ~LSys|      |       |      |      |
- *                                 ,------|------+------|       |------+------+------.
+ *                                 ,------+------+------|       |------+------+------.
  *                                 |      |      |      |       |      |      |      |
- *                                 | Space| LGui |------|       |------| RGui | Enter|
- *                                 |/~LNav| /英数| LAlt |       | RAlt | /かな|/~LNav|
+ *                                 | Space| 英数 |------|       |------| かな | Enter|
+ *                                 |      | /LGui| LAlt |       | RAlt | /RGui|      |
  *                                 `--------------------'       `--------------------'
  */
 [L_BASE] = KEYMAP(
         // left hand
-        C_ESC_TILDE,    KC_1,       KC_2,       KC_3,       KC_4,       KC_5,       KC_6,
-        KC_TAB,         KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,       XXXXXXX,
-        LCTL_T(KC_ESC), LCTL_T(KC_A),KC_S,      KC_D,       KC_F,       KC_G,
-        TD(CT_LSFT),    KC_Z,       KC_X,       KC_C,       KC_V,       KC_B,       XXXXXXX,
-        XXXXXXX,        XXXXXXX,    XXXXXXX,    XXXXXXX,    OSM(MOD_LSFT),
+        C_ESC_TILDE,    KC_1,       KC_2,       KC_3,       KC_4,       KC_5,       XXXXXXX,
+        KC_TAB,         KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,       KC_HOME,
+        KC_LCTL, LCTL_T(KC_A),      KC_S,       KC_D,       KC_F,       KC_G,
+        KC_LSFT,        KC_Z,       KC_X,       KC_C,       KC_V,       KC_B,       KC_END,
+        XXXXXXX,        XXXXXXX,    XXXXXXX,    MO(L_NAV), KC_LSFT,
                                                                         MO(L_SYS),  XXXXXXX,
                                                                                     XXXXXXX,
-                                                            LT(L_NAV,KC_SPC), LGUI_T(KC_LANG2), KC_LALT,
+                                                            KC_SPC,     LGUI_T(KC_LANG2),   KC_LALT,
         // right hand
-        KC_6,           KC_7,       KC_8,       KC_9,       KC_0,       KC_MINS,    KC_EQL,
-        XXXXXXX,        KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_BSPC,
+        XXXXXXX,        KC_6,       KC_7,       KC_8,       KC_9,       KC_0,       KC_BSPC,
+        KC_PGUP,        KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_BSLS,
                         KC_H,       KC_J,       KC_K,       KC_L,       RCTL_T(KC_SCLN),KC_QUOT,
-        XXXXXXX,        KC_N,       KC_M,       KC_COMM,    KC_DOT,     KC_SLSH,    KC_BSLS,
-                                    OSM(MOD_RSFT), KC_LBRC, KC_RBRC,    XXXXXXX,    XXXXXXX,
+        KC_PGDN,        KC_N,       KC_M,       KC_COMM,    KC_DOT,     KC_SLSH,    KC_RSFT,
+                                    MO(L_CODE), MO(L_NAV),  XXXXXXX,    XXXXXXX,    XXXXXXX,
         XXXXXXX,        XXXXXXX,
         XXXXXXX,
-        KC_RALT,        RGUI_T(KC_LANG1),    LT(L_NAV, KC_ENT)
+        KC_RALT,        RGUI_T(KC_LANG1),   KC_ENT
     ),
 
-/* Keymap 1: Navigation Layer
+/* Keymap 1: Code Layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |    `   |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |           |  F6  |  F7  |  F8  |  F9  |  F10 |  F11 |   F12  |
+ * |    `   |  F1  |  F2  |  F3  |  F4  |  F5  |  F11 |           |  F12 |  F6  |  F7  |  F8  |  F9  |  F10 |   Del  |
  * |--------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * |        |      |      |  MsU |      |      |      |           | Home | PgUp | PgDn |   [  |   ]  |      |   Del  |
+ * |        |      |      |      |      |      |      |           |      |      |   {  |   }  |   _  |   +  |        |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        | BtnL |  MsL |  MsD |  MsR | BtnR |------|           |------| Left | Down |  Up  | Right|      |        |
- * |--------+------+------+------+------+------|      |           |  End |------+------+------+------+------+--------|
- * |        |  WhD |  WhU |  WhR |  WhL |      |      |           |      |      |      |      |      |      |        |
+ * |        |      |      |      |      |      |------|           |------|      |   [  |   ]  |   -  |   =  |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |      |      |      |      |      |                                       |      |      |      |      |      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |      |      |       |      |      |
- *                                 ,------|------+------|       |------+------+------.
+ *                                 ,------+------+------|       |------+------+------.
+ *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |------|       |------|      |      |
+ *                                 |      |      |      |       |      |      |      |
+ *                                 `--------------------'       `--------------------'
+ */
+[L_CODE] = KEYMAP(
+       // left hand
+       KC_GRV,  KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,      KC_F11,
+       _______, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    _______,
+       _______, _______,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+       _______, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    _______,
+       XXXXXXX, XXXXXXX,    XXXXXXX,    _______,    _______,
+                                                                _______,    _______,
+                                                                            _______,
+                                                    _______,    _______,    _______,
+       // right hand
+       KC_F12,  KC_F6,      KC_F7,      KC_F8,      KC_F9,      KC_F10,     KC_DEL,
+       _______, XXXXXXX,    S(KC_LBRC), S(KC_RBRC), S(KC_MINS), S(KC_EQL),  XXXXXXX,
+                XXXXXXX,    KC_LBRC,    KC_RBRC,    KC_MINS,    KC_EQL,     XXXXXXX,
+       _______, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,     XXXXXXX,
+                            _______,    _______,    _______,    _______,    _______,
+       _______, _______,
+       _______,
+       _______, _______,    _______
+),
+
+/* Keymap 2: Navigation Layer
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |        |  F1  |  F2  |  F3  |  F4  |  F5  |  F11 |           |  F12 |  F6  |  F7  |  F8  |  F9  |  F10 |   Del  |
+ * |--------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
+ * |        |      |      |  MsU |      |      |      |           |      |      |      |  Up  |      |      |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        | BtnL |  MsL |  MsD |  MsR | BtnR |------|           |------|      | Left | Down | Right|      |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |  WhD |  WhU |  WhR |  WhL |      |      |           |      |      |      |      |      |      |        |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |      |      |      |      |      |                                       |      |      |      |      |      |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        |      |      |       | Power|      |
+ *                                 ,------+------+------|       |------+------+------.
  *                                 |      |      |      |       |      |      |      |
  *                                 |      |      |------|       |------|      |      |
  *                                 |      |      |      |       |      |      |      |
@@ -104,27 +147,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [L_NAV] = KEYMAP(
        // left hand
-       KC_GRV,  KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,      KC_F6,
-       _______, XXXXXXX,    XXXXXXX,    KC_MS_U,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+       KC_GRV,  KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,      KC_F11,
+       _______, XXXXXXX,    XXXXXXX,    KC_MS_U,    XXXXXXX,    XXXXXXX,    _______,
        _______, KC_BTN1,    KC_MS_L,    KC_MS_D,    KC_MS_R,    KC_BTN2,
-       _______, C_WH_D,     C_WH_U,     C_WH_R,     C_WH_L,     XXXXXXX,    XXXXXXX,
-       XXXXXXX, _______,    XXXXXXX,    XXXXXXX,    _______,
+       _______, C_WH_D,     C_WH_U,     C_WH_R,     C_WH_L,     XXXXXXX,    _______,
+       XXXXXXX, XXXXXXX,    XXXXXXX,    _______,    _______,
                                                                 _______,    _______,
                                                                             _______,
                                                     _______,    _______,    _______,
        // right hand
-       KC_F6,   KC_F7,      KC_F8,      KC_F9,      KC_F10,     KC_F11,     KC_F12,
-       KC_HOME, KC_PGUP,    KC_PGDN,    KC_LBRC,    KC_RBRC,    XXXXXXX,    KC_DEL,
-                KC_LEFT,    KC_DOWN,    KC_UP,      KC_RIGHT,   XXXXXXX,    XXXXXXX,
-       KC_END,  XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
-                            _______,    XXXXXXX,    XXXXXXX,    _______,    XXXXXXX,
-       _______, _______,
+       KC_F12,  KC_F6,      KC_F7,      KC_F8,      KC_F9,      KC_F10,     KC_DEL,
+       _______, XXXXXXX,    XXXXXXX,    KC_UP,      XXXXXXX,    XXXXXXX,    XXXXXXX,
+                XXXXXXX,    KC_LEFT,    KC_DOWN,    KC_RIGHT,   XXXXXXX,    XXXXXXX,
+       _______, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+                            _______,    _______,    _______,    _______,    _______,
+       KC_POWER, _______,
        _______,
        _______, _______,    _______
 ),
 
 
-/* Keymap 2: System Layer
+/* Keymap 3: System Layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * | Version|      |      |      |      |      |      |           |      |      |      |      |      |      |        |
@@ -139,7 +182,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |      |      |       |      |      |
- *                                 ,------|------+------|       |------+------+------.
+ *                                 ,------+------+------|       |------+------+------.
  *                                 |      |      |      |       |      |      |      |
  *                                 |      |      |------|       |------|      |      |
  *                                 |      |      |      |       |      |      |      |
@@ -184,7 +227,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |      |      |       |      |      |
- *                                 ,------|------+------|       |------+------+------.
+ *                                 ,------+------+------|       |------+------+------.
  *                                 |      |      |      |       |      |      |      |
  *                                 |      |      |------|       |------|      |      |
  *                                 |      |      |      |       |      |      |      |
@@ -371,8 +414,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) {
             // なぜか has_oneshot_mods_timed_out() が未定義エラーになる
             //int oneshot = ((get_oneshot_mods() & MOD_BIT(KC_LSFT)) && !has_oneshot_mods_timed_out());
-            int oneshot_shift = get_oneshot_mods() & MOD_BIT(KC_LSFT);
-            int shift = keyboard_report->mods & MOD_BIT(KC_LSFT);
+            int oneshot_shift = get_oneshot_mods() & (MOD_BIT(KC_LSFT) | MOD_BIT(KC_RSFT));
+            int shift = keyboard_report->mods & (MOD_BIT(KC_LSFT) | MOD_BIT(KC_RSFT));
             // SHIFT を押していたらチルダ ~
             if (shift || oneshot_shift) {
                 clear_oneshot_mods();
